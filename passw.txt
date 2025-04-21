@@ -1,0 +1,11 @@
+root:root
+admin:admin123
+admin:admin
+user:123456
+test:test
+guest:guest
+admin:password
+root:toor
+demo:demo
+sys:sys
+pi:raspberry
