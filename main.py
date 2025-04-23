@@ -8,5 +8,5 @@ from sshfactory import SSHPOT
 
 pot= SSHPOT()
 
-reactor.listenTCP(2222, pot, interface="127.0.0.1")
+reactor.listenTCP(2222, pot, interface="0.0.0.0")
 reactor.run()

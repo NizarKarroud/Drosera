@@ -20,27 +20,23 @@ class HoneyRealm:
         user.channelLookup[b'session'] = HoneySession
         return IConchUser, user, lambda: None
 
-
-
 class HoneySession(SSHSession):
     def __init__(self, avatar, *args, **kwargs):
-        super().__init__(*args, **kwargs)  
+        super().__init__(*args, **kwargs)
         self.avatar = avatar
-
+        self.protocol = None  
 
     def openShell(self, protocol):
         print("Opening fake shell...")
-        self.protocol = protocol
+        self.protocol = protocol  
         self.protocol.makeConnection(self)
-        self.makeConnection(self.protocol)
-
-
-    def execCommand(self, proto, cmd):
-        pass  
-
 
     def channelOpen(self, specificData):
         print("Channel opened successfully")
+        
+        shell_protocol = insults.ServerProtocol(FakeShellProtocol)
+        self.openShell(shell_protocol)
+
 
     def request_pty_req(self, data):
         print("Received pty-req request")
@@ -48,16 +44,14 @@ class HoneySession(SSHSession):
 
     def request_shell(self, data):
         print("Received shell request")
-        shell_protocol = insults.ServerProtocol(FakeShellProtocol)
-        self.openShell(shell_protocol)
-        return defer.succeed(True)
 
+        return defer.succeed(True)
+    
     def request_exec(self, data):
         print(f"Received exec request: {data}")
         return defer.succeed(True)
-
+    
     def dataReceived(self, data):
-
         print(f"Data received: {data}")
 
     def write(self, data):
@@ -71,6 +65,3 @@ class HoneySession(SSHSession):
 
     def closed(self):
         print(f"[-] Session closed at {time.ctime()}")
-
-
-
