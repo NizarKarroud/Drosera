@@ -3,6 +3,7 @@ from twisted.conch.ssh.keys import Key
 from twisted.cred.portal import Portal
 from authchecker import AuthChecker
 from honeyrealm import HoneyRealm
+from twisted.conch.ssh import userauth, connection
 
 class SSHPOT(SSHFactory):
     def __init__(self):
@@ -11,6 +12,10 @@ class SSHPOT(SSHFactory):
         }
         self.privateKeys = {
             b'ssh-rsa': Key.fromFile('ssh_host_rsa_key')
+        }
+        self.services = {
+            b'ssh-userauth': userauth.SSHUserAuthServer,
+            b'ssh-connection': connection.SSHConnection
         }
         super().__init__()
         self.portal = Portal(HoneyRealm())

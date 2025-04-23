@@ -14,6 +14,7 @@ class AuthChecker(FilePasswordDB):
         try:
             username, expected_password = self.getUser(credentials.username)
             if credentials.password == expected_password:
+                
                 print(f"[+] LOGIN SUCCESS: {username.decode()} : {expected_password.decode()}")
                 return username  
             else:
