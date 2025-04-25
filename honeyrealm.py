@@ -50,10 +50,11 @@ class HoneySession(SSHSession):
     def request_exec(self, data):
         print(f"Received exec request: {data}")
         return defer.succeed(True)
-    
+        
     def dataReceived(self, data):
-        print(f"Data received: {data}")
-
+        if self.protocol:
+            self.protocol.dataReceived(data)
+            
     def write(self, data):
         self.conn.sendData(self, data)
 

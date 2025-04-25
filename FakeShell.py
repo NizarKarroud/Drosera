@@ -1,9 +1,24 @@
-from twisted.protocols.basic import LineReceiver
+from twisted.conch.recvline import HistoricRecvLine
+from twisted.conch.insults.insults import ITerminalProtocol
+from zope.interface import implementer
 
-class FakeShellProtocol(LineReceiver):
+@implementer(ITerminalProtocol)
+class FakeShellProtocol(HistoricRecvLine):
+
     def connectionMade(self):
-        self.transport.write(b"Welcome to fake shell\n$ ")
+        HistoricRecvLine.connectionMade(self)
+        self.terminal.write("Welcome to RageBait HoneyShell\n")
+        self.showPrompt()
+
+    def showPrompt(self):
+        self.terminal.write("$ ")
 
     def lineReceived(self, line):
-        response = f"You typed: {line.decode()}\n$ "
-        self.transport.write(response.encode())
+        line = str(line).strip()
+        print(line)
+        if line == b"exit":
+            self.terminal.write("Bye!\n")
+            self.terminal.loseConnection()
+            return
+        self.terminal.write(f"Command not found: {line}\n")
+        self.showPrompt()
