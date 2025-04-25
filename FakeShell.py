@@ -7,16 +7,16 @@ class FakeShellProtocol(HistoricRecvLine):
 
     def connectionMade(self):
         HistoricRecvLine.connectionMade(self)
-        self.terminal.write("Welcome to RageBait HoneyShell\n")
+        self.terminal.write("Welcome to RageBait shell\n")
         self.showPrompt()
 
     def showPrompt(self):
         self.terminal.write("$ ")
 
     def lineReceived(self, line):
-        line = str(line).strip()
+        line = line.decode('utf-8').strip()
         print(line)
-        if line == b"exit":
+        if line == "exit":
             self.terminal.write("Bye!\n")
             self.terminal.loseConnection()
             return
