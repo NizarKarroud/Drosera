@@ -4,7 +4,7 @@ from cryptography.utils import CryptographyDeprecationWarning
 
 warnings.filterwarnings("ignore" , category=CryptographyDeprecationWarning) 
 
-from sshfactory import SSHPOT
+from ssh.sshfactory import SSHPOT
 
 pot= SSHPOT()
 

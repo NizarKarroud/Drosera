@@ -48,7 +48,10 @@ class HoneySession(SSHSession):
         return defer.succeed(True)
     
     def request_exec(self, data):
-        print(f"Received exec request: {data}")
+        command = ''.join(chr(b) for b in data if 32 <= b <= 126)
+
+        "i should parse the command and "
+        print(f"Received exec request: {command}")
         return defer.succeed(True)
         
     def dataReceived(self, data):
