@@ -1,0 +1,6 @@
+proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+/dev/mapper/ubuntu--vg-root / ext4 rw,relatime,errors=remount-ro 0 0
+tmpfs /dev/shm tmpfs rw,nosuid,nodev 0 0
+/dev/sda1 /boot ext4 rw,relatime 0 0
+/dev/mapper/ubuntu--vg-home /home ext4 rw,relatime 0 0
+/dev/mapper/ubuntu--vg-swap_1 none swap sw 0 0
