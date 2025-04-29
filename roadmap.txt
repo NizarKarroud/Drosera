@@ -1,5 +1,5 @@
  
-FAKE Commands ( )
+FAKE Commands
 
 FAKE Services
 
@@ -14,4 +14,4 @@ TOOL to OSINT THE DATA
 
 EXTEND TO Webn FTP
 
-DOCKER / Kubernetes 
+DOCKER  
