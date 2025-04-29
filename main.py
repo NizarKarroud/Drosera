@@ -4,7 +4,7 @@ from cryptography.utils import CryptographyDeprecationWarning
 
 warnings.filterwarnings("ignore" , category=CryptographyDeprecationWarning) 
 
-from ssh.sshfactory import SSHPOT
+from drosera.ssh.sshfactory import SSHPOT
 
 pot= SSHPOT()
 
