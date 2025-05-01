@@ -1,0 +1,9 @@
+# To allow connections from remote users, set this parameter to a non-loopback address.
+server.host: "0.0.0.0"
+
+# The URLs of the Elasticsearch instances to use for all your queries.
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+
+# The username and password that Kibana uses to perform maintenance on the Kibana index.
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "kibanapot"
