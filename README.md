@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcuriousplant.com%2Fwp-content%2Fuploads%2F2019%2F08%2Fdrosera-natalensis-2.jpg&f=1&nofb=1&ipt=1e3f6350e24dfaf5fc6684e4f60328fd8ce2d544569247ed998b61ef22199ef9" alt="Drosera"></a>
+ <img src="drosera_logo.png" alt="Drosera"></a>
 </p>
 
 <h3 align="center">Drosera</h3>
