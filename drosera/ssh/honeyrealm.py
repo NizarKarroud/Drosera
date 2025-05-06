@@ -17,6 +17,7 @@ class HoneyRealm:
             raise NotImplementedError("HoneyRealm only supports IConchUser interface.")
         
         user = ConchUser()
+        user.username = avatarId.decode()
         user.channelLookup[b'session'] = HoneySession
         return IConchUser, user, lambda: None
 
@@ -24,6 +25,7 @@ class HoneySession(SSHSession):
     def __init__(self, avatar, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.avatar = avatar
+        self.username = avatar.username
         self.protocol = None  
 
     def openShell(self, protocol):
@@ -31,10 +33,18 @@ class HoneySession(SSHSession):
         self.protocol = protocol  
         self.protocol.makeConnection(self)
 
+
+
     def channelOpen(self, specificData):
         print("Channel opened successfully")
+        peer = self.getPeer().address  
+        host = self.getHost().address  
+
+
+        self.peer = (peer.host, peer.port)
+        self.host = (host.host, host.port)
         
-        shell_protocol = insults.ServerProtocol(FakeShellProtocol)
+        shell_protocol = insults.ServerProtocol(FakeShellProtocol ,session=self)
         self.openShell(shell_protocol)
 
 

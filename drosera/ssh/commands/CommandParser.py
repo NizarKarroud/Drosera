@@ -25,7 +25,7 @@ class CommandParser:
             self.fake_shell.terminal.write(output)
 
         except (ModuleNotFoundError, AttributeError) as e:
-            print(f"Command '{prog}' not found")
+            self.fake_shell.terminal.write(f"Command '{prog}' not found\n")
 
 
 
