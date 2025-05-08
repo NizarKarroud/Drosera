@@ -42,7 +42,7 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         if self.username == "root":
             self.identity = f"root@{self.ssh_server[0]}:{self.current_dir}# "    
         else :
-            self.identity = f"{self.username}{self.ssh_server[0]}:{self.current_dir}$ "    
+            self.identity = f"{self.username}@{self.ssh_server[0]}:{self.current_dir}$ "    
 
         self.terminal.write(self.identity)
 

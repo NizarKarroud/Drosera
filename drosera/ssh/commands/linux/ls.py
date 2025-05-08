@@ -1,8 +1,9 @@
 import argparse
 
 class ls:
-    def __init__(self , args):
+    def __init__(self , args , shell):
         self.args = args
+        self.shell = shell
         self.parser = argparse.ArgumentParser(
             prog='ls',
             add_help=False,  # Disable the default help
@@ -144,5 +145,6 @@ Exit status:
         print(args)
         if args.help:
             return self.help()
+        
 
 

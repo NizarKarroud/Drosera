@@ -20,7 +20,7 @@ class CommandParser:
             
             module = importlib.import_module(f"drosera.ssh.commands.linux.{prog}")
             prog_func = getattr(module , prog , None )
-            instance = prog_func(cmd[1:])
+            instance = prog_func(cmd[1:] , self.fake_shell)
             output = instance.run()
             self.fake_shell.terminal.write(output)
 
