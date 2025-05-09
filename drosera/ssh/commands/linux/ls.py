@@ -141,10 +141,18 @@ Exit status:
         return custom_help
 
     def run(self):
-        args = self.parser.parse_args(self.args)
-        print(args)
-        if args.help:
-            return self.help()
-        
-
-
+        try:
+            # Ignore if the input contains pipe or redirection
+            if any(sym in self.args for sym in ['|', '>', '>>', '<']):
+                return
+            
+            args, unknown = self.parser.parse_known_args(self.args)
+            if unknown:
+                error_msg = f"ls: unrecognized option '{unknown[0]}'\nTry 'ls --help' for more information.\n"
+                self.shell.terminal.write(error_msg)
+                return
+            if args.help:
+                return self.help()
+        except SystemExit as e:
+            # Suppress argparse's default exit
+            pass

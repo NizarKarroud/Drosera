@@ -65,3 +65,34 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
 
         self.showPrompt()
 
+    def verify_path(self , path : list) -> bool : 
+        if not path:
+            return True
+
+        current = self.fs
+        for part in path:
+            if part not in current:
+                return False
+            current = current[part]
+        return True
+
+
+    def normalize_path(self , path_str):
+        if path_str.startswith('/'):
+            # Absolute path
+            path_parts = path_str.rstrip('/').split('/')
+            return path_parts
+        
+        elif path_str.startswith('~'):
+            # Home path
+            sub_path = path_str[1:].strip('/')
+            return ['', 'home', 'nizar'] + (sub_path.split('/') if sub_path else [])
+        
+        else:
+            # Relative path
+            if self.current_dir == "~":
+                self.current_dir = "/home/nizar/"
+
+            path_parts = self.current_dir+ path_str
+            
+            return path_parts.rstrip("/").split('/')

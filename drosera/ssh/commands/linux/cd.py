@@ -24,17 +24,6 @@ class cd :
             action='store_true'
         )
 
-    def verify_path(self , path : list) -> bool : 
-        if not path:
-            return True
-
-        current = self.shell.fs
-        for part in path:
-            if part not in current:
-                return False
-            current = current[part]
-        return True
-
 
     def help(self):
         custom_help = """
@@ -75,25 +64,7 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
 """
         return custom_help
     
-    def normalize_path(self , path_str, current_dir):
-        if path_str.startswith('/'):
-            # Absolute path
-            path_parts = path_str.rstrip('/').split('/')
-            return path_parts
-        
-        elif path_str.startswith('~'):
-            # Home path
-            sub_path = path_str[1:].strip('/')
-            return ['', 'home', 'nizar'] + (sub_path.split('/') if sub_path else [])
-        
-        else:
-            # Relative path
-            if current_dir == "~":
-                current_dir = "/home/nizar/"
 
-            path_parts = current_dir+ path_str
-            
-            return path_parts.rstrip("/").split('/')
     
     def run(self):
         try:
@@ -116,8 +87,8 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
                 return
 
             else :
-                path = self.normalize_path(str(args.dir) , self.shell.current_dir)
-                if self.verify_path(path) :
+                path = self.shell.normalize_path(str(args.dir))
+                if self.shell.verify_path(path) :
                     path_str = "/".join(path)
                     print(path_str)
                     if path_str.startswith("/home/nizar"):
@@ -131,21 +102,4 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
             # Suppress argparse's default exit
             pass
 
-
-"""
-case 1 :  cd no arguments 
-
-
-case 2 :  cd ~ 
-
-case 3 : cd path/ 
-    sub case : relative path 
-    sub case : aboslute path 
-
-
-handle invalid arugments
-
-
-n
-"""
 
