@@ -22,7 +22,8 @@ class CommandParser:
             prog_func = getattr(module , prog , None )
             instance = prog_func(cmd[1:] , self.fake_shell)
             output = instance.run()
-            self.fake_shell.terminal.write(output)
+            if output :
+                self.fake_shell.terminal.write(output)
 
         except (ModuleNotFoundError, AttributeError) as e:
             self.fake_shell.terminal.write(f"Command '{prog}' not found\n")
