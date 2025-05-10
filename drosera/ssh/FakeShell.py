@@ -58,7 +58,9 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         elif line == "clear":
             self.terminal.write("\x1b[2J\x1b[H")
             self.showPrompt()
-
+            return
+        elif line == "" :
+            self.showPrompt()
             return
         cmd_list = self.command_parser.parse(line)
         self.command_parser.call(cmd_list)

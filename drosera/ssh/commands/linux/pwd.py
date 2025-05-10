@@ -39,9 +39,25 @@ pwd: pwd [-LP]
         return custom_help
 
     def run(self):
-        args = self.parser.parse_args(self.args)
-        if args.help:
-            return self.help()
-        else : 
-            return self.shell.terminal.write(f"{self.shell.current_dir}\n")
 
+        try:
+            # Ignore if the input contains pipe or redirection
+            if any(sym in self.args for sym in ['|', '>', '>>', '<']):
+                return
+
+            args, unknown = self.parser.parse_known_args(self.args)
+            if unknown:
+                error_msg = f"pwd: unrecognized option '{unknown[0]}'\nTry 'pwd --help' for more information.\n"
+                self.shell.terminal.write(error_msg)
+                return
+            
+            if args.help:
+                return self.help()
+            
+
+            else :
+                return self.shell.terminal.write(f"{self.shell.current_dir}\n")
+
+        except SystemExit as e:
+        # Suppress argparse's default exit
+            pass
