@@ -73,7 +73,6 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
                 return
 
             args, unknown = self.parser.parse_known_args(self.args)
-            print(args)
             if unknown:
                 error_msg = f"cd: unrecognized option '{unknown[0]}'\nTry 'cd --help' for more information.\n"
                 self.shell.terminal.write(error_msg)
@@ -90,7 +89,6 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
                 path = self.shell.normalize_path(str(args.dir))
                 if self.shell.verify_path(path) :
                     path_str = "/".join(path)
-                    print(path_str)
                     if path_str.startswith("/home/nizar"):
                         path_str = path_str.replace("/home/nizar", "~", 1)
 

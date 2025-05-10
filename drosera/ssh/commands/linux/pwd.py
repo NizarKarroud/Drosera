@@ -40,7 +40,6 @@ pwd: pwd [-LP]
 
     def run(self):
         args = self.parser.parse_args(self.args)
-        print(args)
         if args.help:
             return self.help()
         else : 
