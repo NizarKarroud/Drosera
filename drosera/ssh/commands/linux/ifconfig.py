@@ -63,7 +63,7 @@ Usage:
 
             args, unknown = self.parser.parse_known_args(self.args)
             if unknown:
-                error_msg = f"ifconfig: unrecognized option '{unknown[0]}'\nTry 'ps --ifconfig' for more information.\n"
+                error_msg = f"ifconfig: unrecognized option '{unknown[0]}'\nTry 'ifconfig --help' for more information.\n"
                 self.shell.terminal.write(error_msg)
                 return
             

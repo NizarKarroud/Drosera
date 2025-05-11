@@ -23,11 +23,10 @@ class CommandParser:
             if output :
                 self.fake_shell.terminal.write(output)
                 
-            del instance
 
         except (ModuleNotFoundError, AttributeError) as e:
             self.fake_shell.terminal.write(f"Command '{prog}' not found\n")
-
+            self.fake_shell.showPrompt()
 
 
     
