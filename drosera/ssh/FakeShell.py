@@ -67,6 +67,11 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         elif line == "" :
             self.showPrompt()
             return
+        elif line == "hostname" :
+            self.terminal.write(f"{self.ssh_server[0]}\n")
+            self.showPrompt()
+            return
+        
         cmd_list = self.command_parser.parse(line)
         self.command_parser.call(cmd_list)
 
