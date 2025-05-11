@@ -17,6 +17,11 @@ class FakeShellProtocol(HistoricRecvLine):
         self.identity = ""
         self.ssh_server = session.host
         self.client = session.peer
+
+    
+        self.active_task = None  
+        self.ping_active = False
+
         with open("drosera\\ssh\\FS\\files\\directory_tree.json") as fs :
             self.fs = json.load(fs)
 
@@ -65,7 +70,24 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         cmd_list = self.command_parser.parse(line)
         self.command_parser.call(cmd_list)
 
+        if self.ping_active :
+            return
         self.showPrompt()
+
+    def keystrokeReceived(self, keyID, modifier):
+
+        if keyID == b'\x03':
+            self.terminal.write("^C\n")  
+
+            if self.active_task and self.ping_active:  # If ping is running
+                self.active_task.cancel()  # Stop the scheduled task
+                self.ping_active = False
+                if hasattr(self, 'current_ping_instance'):
+                    self.current_ping_instance.print_stats()
+            self.showPrompt()  
+            return
+        
+        super().keystrokeReceived(keyID, modifier)
 
     def verify_path(self , path : list) -> bool : 
         if not path:
