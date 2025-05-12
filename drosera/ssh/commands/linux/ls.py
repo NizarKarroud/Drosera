@@ -155,10 +155,11 @@ Exit status:
                 error_msg = f"ls: unrecognized option '{unknown[0]}'\nTry 'ls --help' for more information.\n"
                 self.shell.terminal.write(error_msg)
                 return
+            
             if args.help:
                 return self.help()
             
-            if args.dir and args.dir.startswith("/"):
+            if args.dir and (args.dir.startswith("/") or args.dir.startswith("~") ):
                 path = args.dir
             elif args.dir:
                 path = f"{self.shell.current_dir}/{args.dir}"

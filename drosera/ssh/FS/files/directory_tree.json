@@ -144,16 +144,16 @@
       "ethertypes": null,
       "fstab": null,
       "gai.conf": null,
-      "group": null,
+      "group": "drosera\\ssh\\FS\\files\\etc\\group.txt",
       "group-": null,
       "gshadow": null,
       "gshadow-": null,
       "gss": {
         "mech.d": {}
       },
-      "host.conf": null,
-      "hostname": null,
-      "hosts": null,
+      "host.conf": "drosera\\ssh\\FS\\files\\etc\\host.conf",
+      "hostname": "drosera\\ssh\\FS\files\\etc\\hostname.txt" ,
+      "hosts": "drosera\\ssh\\FS\\files\\etc\\hosts.txt",
       "init.d": {
         "console-setup.sh": null,
         "cron": null,
@@ -182,7 +182,7 @@
           "README": null
         }
       },
-      "issue": null,
+      "issue": "drosera\\ssh\\FS\\files\\etc\\issue.txt",
       "issue.net": null,
       "kernel": {
         "install.d": {},
@@ -267,7 +267,7 @@
         "sudo-i": null,
         "su-l": null
       },
-      "passwd": null,
+      "passwd": "drosera\\ssh\\FS\\files\\etc\\passwd.txt",
       "passwd-": null,
       "profile": null,
       "profile.d": {
@@ -312,7 +312,7 @@
         "semanage.conf": null
       },
       "services": null,
-      "shadow": null,
+      "shadow": "drosera\\ssh\\FS\\files\\etc\\shadow.txt",
       "shadow-": null,
       "shells": null,
       "skel": {},
@@ -348,7 +348,7 @@
         "network": {},
         "networkd.conf": null,
         "pstore.conf": null,
-        "resolved.conf": null,
+        "resolved.conf": "drosera\\ssh\\FS\\files\\etc\\resolved.conf",
         "sleep.conf": null,
         "system": {
           "getty.target.wants": {},
@@ -413,7 +413,14 @@
     "media": {},
     "mnt": {},
     "opt": {},
-    "proc": {},
+    "proc": {
+      "cpuinfo" : "drosera\\ssh\\FS\\files\\proc\\cpuinfo.txt" ,
+      "loadavg" : "drosera\\ssh\\FS\\files\\proc\\loadavg.txt" ,
+      "meminfo" : "drosera\\ssh\\FS\\files\\proc\\meminfo.txt" ,
+      "mounts"  : "drosera\\ssh\\FS\\files\\proc\\mounts.txt" ,
+      "uptime"  : "drosera\\ssh\\FS\\files\\proc\\uptime.txt" ,
+      "version" : "drosera\\ssh\\FS\\files\\proc\\version.txt"
+    },
     "root": {},
     "run": {
       "lock": {

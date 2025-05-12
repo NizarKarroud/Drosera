@@ -72,6 +72,27 @@ or available locally via: info '(coreutils) cat invocation'
                 return self.help()
             
 
+            if args.file and  (args.file.startswith("/") or args.file.startswith("~") ):
+                path = args.file
+            elif args.file:
+                path = f"{self.shell.current_dir}/{args.file}"
+            else:
+                return '\n'
+                
+            formated_path = self.shell.normalize_path(path) 
+            listed = self.shell.verify_path(formated_path)
+               
+            if isinstance(listed[0] , str) :
+                with open(listed[0] , "r") as f:
+                    return f.read() 
+                
+            elif listed[0] == None :
+                return "\n"
+            
+            elif not listed[0] and listed[1] == False :
+                return f"cat: {args.file}: No such file or directory\n"  
+            else : 
+                return f"cat : {args.file}: Is a directory\n"
         except SystemExit as e:
             # Suppress argparse's default exit
             pass
