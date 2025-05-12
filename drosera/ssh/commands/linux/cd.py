@@ -87,7 +87,7 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
 
             else :
                 path = self.shell.normalize_path(str(args.dir))
-                if self.shell.verify_path(path) :
+                if self.shell.verify_path(path)[1] :
                     path_str = "/".join(path)
                     if path_str.startswith("/home/nizar"):
                         path_str = path_str.replace("/home/nizar", "~", 1)

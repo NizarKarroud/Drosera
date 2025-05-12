@@ -15,7 +15,11 @@ class ls:
             action='store_true'
         )
 
-        self.parser.add_argument('-a', '--all', action='store_true')
+        self.parser.add_argument(
+            'dir' ,
+            nargs="?"
+        )
+
         self.parser.add_argument('-l', '--long', action='store_true')
 
 
@@ -153,6 +157,23 @@ Exit status:
                 return
             if args.help:
                 return self.help()
+            
+            if args.dir and args.dir.startswith("/"):
+                path = args.dir
+            elif args.dir:
+                path = f"{self.shell.current_dir}/{args.dir}"
+            else:
+                path = self.shell.current_dir
+                
+            formated_path = self.shell.normalize_path(path) 
+            listed = self.shell.verify_path(formated_path)
+
+            if not isinstance(listed[0], dict) :
+                return f"{args.dir}\n"
+            
+            elif not listed[0] and listed[1] == False :
+                return f"ls: cannot access '{args.dir}': No such file or directory\n"
+            self.shell.terminal.write(" ".join(list(listed[0].keys())) + "\n") 
         except SystemExit as e:
             # Suppress argparse's default exit
             pass

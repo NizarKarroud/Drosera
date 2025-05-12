@@ -94,16 +94,16 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         
         super().keystrokeReceived(keyID, modifier)
 
-    def verify_path(self , path : list) -> bool : 
+    def verify_path(self , path : list) -> tuple[dict|str|None,bool]: 
         if not path:
             return True
 
         current = self.fs
         for part in path:
             if part not in current:
-                return False
+                return {} , False
             current = current[part]
-        return True
+        return current , True
 
 
     def normalize_path(self , path_str):
