@@ -84,7 +84,7 @@ or available locally via: info '(coreutils) cat invocation'
                
             if isinstance(listed[0] , str) :
                 with open(listed[0] , "r") as f:
-                    return f.read() 
+                    return f"{f.read()}\n"
                 
             elif listed[0] == None :
                 return "\n"

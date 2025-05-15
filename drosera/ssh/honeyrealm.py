@@ -6,7 +6,7 @@ from zope.interface import implementer
 
 from twisted.conch.insults import insults
 from twisted.internet import defer
-from drosera.ssh.FakeShell import FakeShellProtocol
+from FakeShell import FakeShellProtocol
 
 import time
 

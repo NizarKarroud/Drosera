@@ -1,0 +1,4 @@
+cryptography==44.0.3
+paramiko==3.5.1
+Twisted==24.11.0
+zope.interface==7.2

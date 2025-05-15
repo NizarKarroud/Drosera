@@ -144,16 +144,16 @@
       "ethertypes": null,
       "fstab": null,
       "gai.conf": null,
-      "group": "drosera\\ssh\\FS\\files\\etc\\group.txt",
+      "group": "FS//files//etc//group.txt",
       "group-": null,
       "gshadow": null,
       "gshadow-": null,
       "gss": {
         "mech.d": {}
       },
-      "host.conf": "drosera\\ssh\\FS\\files\\etc\\host.conf",
-      "hostname": "drosera\\ssh\\FS\files\\etc\\hostname.txt" ,
-      "hosts": "drosera\\ssh\\FS\\files\\etc\\hosts.txt",
+      "host.conf": "FS//files//etc//host.conf",
+      "hostname": "FS//files//etc//hostname.txt" ,
+      "hosts": "FS//files//etc//hosts.txt",
       "init.d": {
         "console-setup.sh": null,
         "cron": null,
@@ -182,7 +182,7 @@
           "README": null
         }
       },
-      "issue": "drosera\\ssh\\FS\\files\\etc\\issue.txt",
+      "issue": "FS//files//etc//issue.txt",
       "issue.net": null,
       "kernel": {
         "install.d": {},
@@ -267,7 +267,7 @@
         "sudo-i": null,
         "su-l": null
       },
-      "passwd": "drosera\\ssh\\FS\\files\\etc\\passwd.txt",
+      "passwd": "FS//files//etc//passwd.txt",
       "passwd-": null,
       "profile": null,
       "profile.d": {
@@ -312,7 +312,7 @@
         "semanage.conf": null
       },
       "services": null,
-      "shadow": "drosera\\ssh\\FS\\files\\etc\\shadow.txt",
+      "shadow": "FS//files//etc//shadow.txt",
       "shadow-": null,
       "shells": null,
       "skel": {},
@@ -348,7 +348,7 @@
         "network": {},
         "networkd.conf": null,
         "pstore.conf": null,
-        "resolved.conf": "drosera\\ssh\\FS\\files\\etc\\resolved.conf",
+        "resolved.conf": "FS//files//etc//resolved.conf",
         "sleep.conf": null,
         "system": {
           "getty.target.wants": {},
@@ -414,12 +414,12 @@
     "mnt": {},
     "opt": {},
     "proc": {
-      "cpuinfo" : "drosera\\ssh\\FS\\files\\proc\\cpuinfo.txt" ,
-      "loadavg" : "drosera\\ssh\\FS\\files\\proc\\loadavg.txt" ,
-      "meminfo" : "drosera\\ssh\\FS\\files\\proc\\meminfo.txt" ,
-      "mounts"  : "drosera\\ssh\\FS\\files\\proc\\mounts.txt" ,
-      "uptime"  : "drosera\\ssh\\FS\\files\\proc\\uptime.txt" ,
-      "version" : "drosera\\ssh\\FS\\files\\proc\\version.txt"
+      "cpuinfo" : "FS//files//proc//cpuinfo.txt" ,
+      "loadavg" : "FS//files//proc//loadavg.txt" ,
+      "meminfo" : "FS//files//proc//meminfo.txt" ,
+      "mounts"  : "FS//files//proc//mounts.txt" ,
+      "uptime"  : "FS//files//proc//uptime.txt" ,
+      "version" : "FS//files//proc//version.txt"
     },
     "root": {},
     "run": {
@@ -2874,7 +2874,7 @@
             "systemd-update-utmp.service": null,
             "systemd-user-sessions.service": null,
             "systemd-volatile-root.service": null,
-            "system-systemd\\x2dcryptsetup.slice": null,
+            "system-systemd//x2dcryptsetup.slice": null,
             "system-update-cleanup.service": null,
             "system-update-pre.target": null,
             "system-update.target": null,

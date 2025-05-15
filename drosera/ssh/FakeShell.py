@@ -1,7 +1,7 @@
 from twisted.conch.recvline import HistoricRecvLine
 from twisted.conch.insults.insults import ITerminalProtocol
 from zope.interface import implementer
-from drosera.ssh.commands.CommandParser import CommandParser
+from commands.CommandParser import CommandParser
 import json 
 
 @implementer(ITerminalProtocol)
@@ -22,7 +22,7 @@ class FakeShellProtocol(HistoricRecvLine):
         self.active_task = None  
         self.ping_active = False
 
-        with open("drosera\\ssh\\FS\\files\\directory_tree.json") as fs :
+        with open(r"FS/files/directory_tree.json") as fs :
             self.fs = json.load(fs)
 
     def connectionMade(self):

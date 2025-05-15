@@ -1,34 +1,61 @@
 version: '3.8'
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.0.0
-    container_name: elasticsearch
+
+#   elasticsearch:
+#     image: docker.elastic.co/elasticsearch/elasticsearch:8.0.0
+#     container_name: elasticsearch
+#     environment:
+#       - discovery.type=single-node
+#       - xpack.security.enabled=true
+#       - xpack.security.http.ssl.enabled=false
+#       - ELASTIC_PASSWORD=WcGGWwqK8tnrVhgRTjtG
+#     ports:
+#       - "9200:9200"
+#     networks:
+#       - drosera
+#     volumes:
+#       - elasticsearch-data:/usr/share/elasticsearch/data
+
+#   kibana:
+#     image: docker.elastic.co/kibana/kibana:8.0.0
+#     container_name: kibana
+#     volumes:
+#       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+#     ports:
+#       - "5601:5601"
+#     networks:
+#       - drosera
+
+ 
+  ssh-honeypot:
+    build:
+      context: ./ssh
+      dockerfile: Dockerfile
+    container_name: ssh-honeypot
+    restart: unless-stopped
+    ports:
+      - "2222:2222"  
+    networks:
+      - honeypot-net  
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=false
-      - ELASTIC_PASSWORD=WcGGWwqK8tnrVhgRTjtG
-    ports:
-      - "9200:9200"
-    networks:
-      - drosera
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+      - LOG_FILE=/var/log/honeypot.json
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL  # Drop all capabilities
+    read_only: true  # Immutable filesystem
+    user: "sshuser"  # Non-root user from Dockerfile
+    # depends_on:
+    #   - elasticsearch  # Wait for ES to start
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.0.0
-    container_name: kibana
-    volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
-    ports:
-      - "5601:5601"
-    networks:
-      - drosera
 
-volumes:
-  elasticsearch-data:
-    driver: local
+
+# volumes:
+#   elasticsearch-data:
+#     driver: local
 
 networks:
   drosera:
     driver: bridge
+  honeypot-net:
+    internal: true  # No internet access
