@@ -87,7 +87,10 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
 
             else :
                 path = self.shell.normalize_path(str(args.dir))
-                if self.shell.verify_path(path)[1] :
+                verified_path = self.shell.verify_path(path)
+                if verified_path[1]:
+                    if not isinstance(verified_path[0] ,dict) :
+                            return f"-bash: cd: {args.dir}: Not a directory\n"
                     path_str = "/".join(path)
                     if path_str.startswith("/home/nizar"):
                         path_str = path_str.replace("/home/nizar", "~", 1)
