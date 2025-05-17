@@ -26,28 +26,48 @@ services:
 #     networks:
 #       - drosera
 
- 
-  ssh-honeypot:
-    build:
-      context: ./ssh
-      dockerfile: Dockerfile
-    container_name: ssh-honeypot
-    restart: unless-stopped
-    ports:
-      - "2222:2222"  
-    networks:
-      - honeypot-net  
-    environment:
-      - LOG_FILE=/var/log/honeypot.json
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL  # Drop all capabilities
-    read_only: true  # Immutable filesystem
-    user: "sshuser"  # Non-root user from Dockerfile
-    # depends_on:
-    #   - elasticsearch  # Wait for ES to start
 
+  ssh-honeypot:
+      build:
+        context: ./ssh
+        dockerfile: Dockerfile
+      container_name: ssh-honeypot
+      ports:
+        - "2222:2222"
+      environment :
+        - SSH_PORT=2222
+      volumes:
+        - honeypot-logs:/var/log
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
+      restart: unless-stopped
+      networks:
+        - honeypot-net
+      security_opt:
+        - no-new-privileges:true
+      cap_drop:
+        - ALL
+      user: "sshuser"
+      # depends_on:
+      #   - elasticsearch  # Wait for ES to start
+
+  filebeat:
+    build:
+      context: .
+      dockerfile: filebeat
+
+    volumes:
+      - honeypot-logs:/var/log
+    networks:
+      - honeypot-net
+      - drosera
+    depends_on:
+      - ssh-honeypot
+
+    
 
 
 # volumes:
@@ -58,4 +78,7 @@ networks:
   drosera:
     driver: bridge
   honeypot-net:
-    internal: true  # No internet access
+    driver: bridge
+
+volumes:
+  honeypot-logs:

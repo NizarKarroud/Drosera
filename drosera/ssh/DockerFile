@@ -24,5 +24,7 @@ RUN mkdir -p /var/log && \
 # Switch to non-root user
 USER sshuser
 
+EXPOSE 2222
+
 # Run the honeypot
 CMD ["python", "main.py"]

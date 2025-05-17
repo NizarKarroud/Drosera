@@ -3,6 +3,27 @@ from twisted.cred.checkers import FilePasswordDB, ICredentialsChecker
 from twisted.cred.credentials import IUsernamePassword
 from twisted.cred.error import UnauthorizedLogin
 
+import json
+import time
+from pathlib import Path
+
+# Ensure log directory exists
+LOG_FILE = Path("/var/log/honeypot.json")
+LOG_FILE.parent.mkdir(exist_ok=True)
+
+def log_attack(ip, username, password):
+    log_entry = {
+        "timestamp": time.time(),
+        "ip": ip,
+        "event": "ssh_login_attempt",
+        "username": username,
+        "password": password  # Warning: Avoid logging sensitive data in production
+    }
+    
+    # Append JSON line to file
+    with open(LOG_FILE, "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
+
 @implementer(ICredentialsChecker)
 class AuthChecker(FilePasswordDB):
     credentialInterfaces = (IUsernamePassword,)
@@ -13,6 +34,7 @@ class AuthChecker(FilePasswordDB):
     def requestAvatarId(self, credentials):
         try:
             username, expected_password = self.getUser(credentials.username)
+            log_attack("192.168.100.4", username.decode(), credentials.password.decode())
             if credentials.password == expected_password:
                 
                 print(f"[+] LOGIN SUCCESS: {username.decode()} : {expected_password.decode()}")
