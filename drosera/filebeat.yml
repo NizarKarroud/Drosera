@@ -1,12 +1,24 @@
+
+
 filebeat.inputs:
-- type: log
-  enabled: true
-  paths:
-    - /var/log/honeypot.json
-  json.keys_under_root: true
-  json.add_error_key: true
+  - type: filestream
+    enabled: true
+    paths:
+      - /var/log/honeypot.json
+    json.keys_under_root: true
+    json.add_error_key: true
 
+# Disable ILM so your custom index name is used
+setup.ilm.enabled: false
 
-output.console:
-  enabled: true
-  pretty: true
+# Optional: auto-load the template (you can also do this manually with curl)
+setup.template.enabled: true
+setup.template.name: "honeypot-template"
+setup.template.pattern: "honeypot-logs-*"
+
+# Send to Elasticsearch with custom index name
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "filebeat"
+  password: "SDJwxcdq873OOO"
+  index: "honeypot-logs-%{+yyyy.MM.dd}"
