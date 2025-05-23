@@ -7,11 +7,12 @@ from cryptography.utils import CryptographyDeprecationWarning
 warnings.filterwarnings("ignore" , category=CryptographyDeprecationWarning) 
 
 from sshfactory import SSHPOT
+from logger import Logger 
+
 
 SSH_PORT = int(os.getenv("SSH_PORT", "2222"))
-LOG_FILE = os.getenv("LOG_FILE", "/var/log/honeypot.json") 
 
-pot= SSHPOT()
+pot= SSHPOT(Logger())
 
 reactor.listenTCP(SSH_PORT, pot, interface="0.0.0.0")
 reactor.run()

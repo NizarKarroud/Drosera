@@ -1,4 +1,6 @@
-cryptography==44.0.3
+colorlog==6.9.0
+cryptography==45.0.2
 paramiko==3.5.1
+Requests==2.32.3
 Twisted==24.11.0
 zope.interface==7.2
