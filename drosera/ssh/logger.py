@@ -55,7 +55,11 @@ class Logger :
             f"SSH login attempt from {ip}:{port} - Username: {credentials[0]} | Password: {credentials[1]} | Status: {status}"
         )
 
+    def log_event(self , event : str , type:str = "info"):
+        log_method = getattr(self.logger, type , self.logger.info)
 
+        if callable(log_method):
+            log_method(event)
 
 
 # ip_api=os.getenv('IPINFO_API_KEY')
