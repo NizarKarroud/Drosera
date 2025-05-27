@@ -8,11 +8,14 @@ import json
 class FakeShellProtocol(HistoricRecvLine):
 
 
-    def __init__(self, session, *args, **kwargs):
+    def __init__(self, session,logger, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ssh_session = session
         self.username = session.username
         self.current_dir = "~"
+        
+        self.logger = logger
+
         self.command_parser = CommandParser(self)
         self.identity = ""
         self.ssh_server = session.host

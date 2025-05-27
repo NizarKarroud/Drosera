@@ -3,6 +3,7 @@ from twisted.conch.avatar import ConchUser
 from twisted.conch.interfaces import ISession , IConchUser
 from twisted.conch.ssh.session import SSHSession
 from zope.interface import implementer
+from datetime import datetime, timezone
 
 from twisted.conch.insults import insults
 from twisted.internet import defer
@@ -12,22 +13,30 @@ import time
 
 @implementer(IRealm)
 class HoneyRealm:
+    def __init__(self, logger):
+        self.logger = logger
+
     def requestAvatar(self, avatarId, mind, *interfaces):
         if IConchUser not in interfaces:
             raise NotImplementedError("HoneyRealm only supports IConchUser interface.")
         
         user = ConchUser()
         user.username = avatarId.decode()
-        user.channelLookup[b'session'] = HoneySession
+                
+        def session_factory(*args, **kwargs):
+            return HoneySession(*args, logger=self.logger, **kwargs)
+
+        user.channelLookup[b'session'] = session_factory
         return IConchUser, user, lambda: None
 
 class HoneySession(SSHSession):
-    def __init__(self, avatar, *args, **kwargs):
+    def __init__(self, avatar, *args, logger=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.avatar = avatar
         self.username = avatar.username
         self.protocol = None  
-
+        self.logger = logger
+        
     def openShell(self, protocol):
         self.protocol = protocol  
         self.protocol.makeConnection(self)
@@ -41,8 +50,10 @@ class HoneySession(SSHSession):
 
         self.peer = (peer.host, peer.port)
         self.host = (host.host, host.port)
-        
-        shell_protocol = insults.ServerProtocol(FakeShellProtocol ,session=self)
+
+        self.start_time = datetime.now(timezone.utc)
+
+        shell_protocol = insults.ServerProtocol(FakeShellProtocol ,session=self , logger =self.logger)
         self.openShell(shell_protocol)
 
 
@@ -53,7 +64,6 @@ class HoneySession(SSHSession):
         return defer.succeed(True)
     
     def request_exec(self, data):
-
         return defer.succeed(True)
         
     def dataReceived(self, data):
@@ -67,7 +77,12 @@ class HoneySession(SSHSession):
         self.conn.sendClose(self)
 
     def eofReceived(self):
-        print("EOF received")
+        pass
 
     def closed(self):
-        print(f"[-] Session closed at {time.ctime()}")
+        ip , port = self.peer
+        duration = (datetime.now(timezone.utc) - self.start_time).total_seconds()
+
+        self.logger.log_event(f"Session closed at {time.ctime()} {self.username}")
+
+        self.logger.log_logout(ip , port , self.username , duration)

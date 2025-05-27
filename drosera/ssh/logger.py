@@ -37,6 +37,15 @@ class Logger :
         except Exception as e:
             self.logger.error(f"Could not create log file: {e}")
 
+
+    def log_event(self , event : str , type:str = "info"):
+        log_method = getattr(self.logger, type , self.logger.info)
+
+        if callable(log_method):
+            log_method(event)
+
+
+
     def log_connection(self , ip , port , credentials , status ):
         with open(self.log_file, "a") as f:
             log = {
@@ -54,11 +63,17 @@ class Logger :
             f.write(json.dumps(log) + '\n')
 
 
-
-    def log_event(self , event : str , type:str = "info"):
-        log_method = getattr(self.logger, type , self.logger.info)
-
-        if callable(log_method):
-            log_method(event)
-
-
+    def log_logout(self , ip , port , username , duration):
+        with open(self.log_file, "a") as f:
+            log = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "ip": ip,
+                "port": port,
+                "event": "ssh session closure",
+                "protocol": "ssh",
+                "fields": {
+                    "username": username,
+                    "duration" : duration
+                }
+            }            
+            f.write(json.dumps(log) + '\n')
