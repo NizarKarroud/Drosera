@@ -29,14 +29,12 @@ class HoneySession(SSHSession):
         self.protocol = None  
 
     def openShell(self, protocol):
-        print("Opening fake shell...")
         self.protocol = protocol  
         self.protocol.makeConnection(self)
 
 
 
     def channelOpen(self, specificData):
-        print("Channel opened successfully")
         peer = self.getPeer().address  
         host = self.getHost().address  
 
@@ -49,19 +47,13 @@ class HoneySession(SSHSession):
 
 
     def request_pty_req(self, data):
-        print("Received pty-req request")
         return defer.succeed(True)
 
     def request_shell(self, data):
-        print("Received shell request")
-
         return defer.succeed(True)
     
     def request_exec(self, data):
-        command = ''.join(chr(b) for b in data if 32 <= b <= 126)
 
-        "i should parse the command and "
-        print(f"Received exec request: {command}")
         return defer.succeed(True)
         
     def dataReceived(self, data):

@@ -21,4 +21,4 @@ class AuthChecker(FilePasswordDB):
             else:
                 raise UnauthorizedLogin("Invalid password")
         except KeyError:
-            raise UnauthorizedLogin("No such user")
+            raise UnauthorizedLogin("User not found")

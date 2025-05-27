@@ -6,8 +6,6 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Ensure log directory exists
-
 class Logger :
     def __init__(self):
 
@@ -51,23 +49,12 @@ class Logger :
             }            
             f.write(json.dumps(log) + '\n')
 
-        self.logger.info(
-            f"SSH login attempt from {ip}:{port} - Username: {credentials[0]} | Password: {credentials[1]} | Status: {status}"
-        )
+
 
     def log_event(self , event : str , type:str = "info"):
         log_method = getattr(self.logger, type , self.logger.info)
 
         if callable(log_method):
             log_method(event)
-
-
-# ip_api=os.getenv('IPINFO_API_KEY')
-# response = requests.get(f"https://ipinfo.io/8.8.8.8/json?token={ip_api}")
-# data = response.json()
-# print(data)
-
-
-
 
 
