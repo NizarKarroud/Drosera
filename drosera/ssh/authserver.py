@@ -38,7 +38,7 @@ class CustomSSHUserAuthServer(SSHUserAuthServer):
                     f"[AUTH FAIL] User: {user.decode()} , password: {data.decode()} via {kind.decode()} - {failure.getErrorMessage()}",
                     type="warning"
                 )
-                self.logger.log_connection( ip = client_ip , port = client_port , credentials  = (user.decode() , data.decode() ), status = {failure.getErrorMessage()} )
+                self.logger.log_connection( ip = client_ip , port = client_port , credentials  = (user.decode() , data.decode() ), status = failure.getErrorMessage() )
 
             return failure
 

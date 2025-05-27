@@ -1,7 +1,6 @@
 import logging
 import colorlog
-import requests , os
-
+import string 
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,7 +30,12 @@ class Logger :
         self.logger.setLevel(logging.INFO)
 
         self.log_file = Path("/var/log/honeypot.json")
-        self.log_file.parent.mkdir(exist_ok=True)
+        try:
+            self.log_file.parent.mkdir(parents=True, exist_ok=True)
+            if not self.log_file.exists():
+                self.log_file.touch()
+        except Exception as e:
+            self.logger.error(f"Could not create log file: {e}")
 
     def log_connection(self , ip , port , credentials , status ):
         with open(self.log_file, "a") as f:
@@ -43,7 +47,7 @@ class Logger :
                 "protocol": "ssh",
                 "fields": {
                     "username": credentials[0],
-                    "password": credentials[1],
+                    "password": "".join(c for c in  credentials[1] if c in string.printable).strip(),
                     "status": status
                 }
             }            

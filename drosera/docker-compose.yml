@@ -30,7 +30,8 @@ services:
   ssh-honeypot:
       build:
         context: ./ssh
-        dockerfile: Dockerfile
+        dockerfile: DockerFile
+      user: root
       container_name: ssh-honeypot
       ports:
         - "2222:2222"
@@ -46,13 +47,9 @@ services:
       restart: unless-stopped
       networks:
         - honeypot-net
-      security_opt:
-        - no-new-privileges:true
-      cap_drop:
-        - ALL
-      user: "sshuser"
+
       depends_on:
-        - elasticsearch  # Wait for ES to start
+        - elasticsearch
 
   filebeat:
     build:

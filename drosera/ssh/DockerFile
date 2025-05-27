@@ -1,30 +1,16 @@
 FROM python:3.11-slim
 
-# Create a non-root user and group
-RUN groupadd -r sshuser && useradd -r -g sshuser sshuser
 
-# Set working directory (owned by sshuser)
 WORKDIR /ssh
-RUN chown sshuser:sshuser /ssh
 
-# Install Python dependencies
-COPY --chown=sshuser:sshuser requirements.txt .
+
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy honeypot code (preserve ownership)
-COPY --chown=sshuser:sshuser . .
+COPY . .
 
-# Configure logging (ensure user can write)
 ENV LOG_FILE=/var/log/honeypot.json
-RUN mkdir -p /var/log && \
-    touch $LOG_FILE && \
-    chown sshuser:sshuser $LOG_FILE && \
-    chmod 644 $LOG_FILE  # Readable by all, writable by owner
-
-# Switch to non-root user
-USER sshuser
 
 EXPOSE 2222
 
-# Run the honeypot
 CMD ["python", "main.py"]
