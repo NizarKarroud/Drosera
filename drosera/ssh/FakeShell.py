@@ -59,6 +59,10 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
 
     def lineReceived(self, line):
         line = line.decode('utf-8').strip()
+        self.logger.log_command( self.client[0] ,  self.client[1] , self.username , line , self.current_dir )
+        self.logger.log_event(f"[COMMAND] {self.username} ran: '{line}' in {self.current_dir}", type="info")
+
+
         if line == "exit":
             self.terminal.write("Bye!\n")
             self.terminal.loseConnection()

@@ -77,3 +77,19 @@ class Logger :
                 }
             }            
             f.write(json.dumps(log) + '\n')
+
+    def log_command(self , ip , port , username , command , directory ):
+        with open(self.log_file, "a") as f:
+            log = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "ip": ip,
+                "port": port,
+                "event": "ssh command execution",
+                "protocol": "ssh",
+                "fields": {
+                    "username": username,
+                    "directory" : directory,
+                    "command" : command
+                }
+            }            
+            f.write(json.dumps(log) + '\n')
