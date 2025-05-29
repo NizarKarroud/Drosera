@@ -4,6 +4,8 @@ import string
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import requests 
+
 
 class Logger :
     def __init__(self):
@@ -38,6 +40,25 @@ class Logger :
             self.logger.error(f"Could not create log file: {e}")
 
 
+    def get_geo(self , ip ):
+        try:
+            res = requests.get(f"https://ipinfo.io/{ip}/json")
+            if res.status_code == 200:
+                data = res.json()
+                if data.get("bogon" ,"") == True:
+                    return {}
+                return {
+                    "city": data.get("city"),
+                    "country": data.get("country"),
+                    "loc": data.get("loc"), 
+                    "org": data.get("org"),
+                    "postal": data.get("postal"),
+                    "timezone": data.get("timezone")
+                }
+        except Exception as e:
+            self.log_event(f"GeoIP lookup failed for {ip}: {e}")
+        return {}
+    
     def log_event(self , event : str , type:str = "info"):
         log_method = getattr(self.logger, type , self.logger.info)
 
@@ -47,6 +68,8 @@ class Logger :
 
 
     def log_connection(self , ip , port , credentials , status ):
+        geo = self.get_geo(ip)
+
         with open(self.log_file, "a") as f:
             log = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -58,12 +81,15 @@ class Logger :
                     "username": credentials[0],
                     "password": "".join(c for c in  credentials[1] if c in string.printable).strip(),
                     "status": status
-                }
+                },
+                "geo": geo  
+
             }            
             f.write(json.dumps(log) + '\n')
 
 
     def log_logout(self , ip , port , username , duration):
+        geo = self.get_geo(ip)
         with open(self.log_file, "a") as f:
             log = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -74,11 +100,14 @@ class Logger :
                 "fields": {
                     "username": username,
                     "duration" : duration
-                }
+                },
+                "geo": geo  
+    
             }            
             f.write(json.dumps(log) + '\n')
 
     def log_command(self , ip , port , username , command , directory ):
+        geo = self.get_geo(ip)
         with open(self.log_file, "a") as f:
             log = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -90,6 +119,7 @@ class Logger :
                     "username": username,
                     "directory" : directory,
                     "command" : command
-                }
+                },
+                "geo": geo  
             }            
             f.write(json.dumps(log) + '\n')
