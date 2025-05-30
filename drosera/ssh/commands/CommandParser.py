@@ -15,9 +15,9 @@ class CommandParser:
     def call(self , cmd : list ):
         try : 
             prog = cmd[0]
-            args = " ".join(cmd[1:])
-            self.fake_shell.logger.log_command( self.fake_shell.client[0] ,  self.fake_shell.client[1] , self.fake_shell.username , prog , self.current_dir , args)
-
+            args = " ".join(cmd[1:]) if len(cmd) > 1 else ""
+            self.fake_shell.logger.log_command( self.fake_shell.client[0] ,  self.fake_shell.client[1] , self.fake_shell.username , prog , self.fake_shell.current_dir , args)
+            
             module = importlib.import_module(f"commands.linux.{prog}")
             prog_func = getattr(module , prog , None )
             instance = prog_func(cmd[1:] , self.fake_shell)
@@ -30,5 +30,3 @@ class CommandParser:
             self.fake_shell.terminal.write(f"Command '{prog}' not found\n")
             self.fake_shell.showPrompt()
 
-
-    
