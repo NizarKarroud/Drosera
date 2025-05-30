@@ -59,17 +59,18 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
 
     def lineReceived(self, line):
         line = line.decode('utf-8').strip()
-        self.logger.log_command( self.client[0] ,  self.client[1] , self.username , line , self.current_dir )
         self.logger.log_event(f"[COMMAND] {self.username} ran: '{line}' in {self.current_dir}", type="info")
 
 
         if line == "exit":
-            self.terminal.write("Bye!\n")
             self.terminal.loseConnection()
+            self.logger.log_command( self.client[0] ,  self.client[1] , self.username , "exit" , self.current_dir )
+
             return
         elif line == "clear":
             self.terminal.write("\x1b[2J\x1b[H")
             self.showPrompt()
+            self.logger.log_command( self.client[0] ,  self.client[1] , self.username , "clear" , self.current_dir )
             return
         elif line == "" :
             self.showPrompt()
@@ -77,8 +78,9 @@ Last login: Tue Apr 30 20:33:57 2025 from 26.102.246.130\n""")
         elif line == "hostname" :
             self.terminal.write(f"{self.ssh_server[0]}\n")
             self.showPrompt()
+            self.logger.log_command( self.client[0] ,  self.client[1] , self.username , "hostname" , self.current_dir )
+
             return
-        
         cmd_list = self.command_parser.parse(line)
         self.command_parser.call(cmd_list)
 

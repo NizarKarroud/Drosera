@@ -89,7 +89,6 @@ class Logger :
 
 
     def log_logout(self , ip , port , username , duration):
-        geo = self.get_geo(ip)
         with open(self.log_file, "a") as f:
             log = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -101,13 +100,12 @@ class Logger :
                     "username": username,
                     "duration" : duration
                 },
-                "geo": geo  
+                "geo": {}  
     
             }            
             f.write(json.dumps(log) + '\n')
 
-    def log_command(self , ip , port , username , command , directory ):
-        geo = self.get_geo(ip)
+    def log_command(self , ip , port , username , command , directory  , args=""):
         with open(self.log_file, "a") as f:
             log = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -118,8 +116,9 @@ class Logger :
                 "fields": {
                     "username": username,
                     "directory" : directory,
-                    "command" : command
+                    "command" : command,
+                    "args" : args
                 },
-                "geo": geo  
+                "geo": {}  
             }            
             f.write(json.dumps(log) + '\n')
